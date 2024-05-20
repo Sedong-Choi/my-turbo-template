@@ -9,7 +9,8 @@
     "./button": "./src/button.tsx",
     "./card": "./src/card.tsx",
     "./code": "./src/code.tsx",
-    "./globals.css": "./dist/globals.css"
+    "./globals.css": "./dist/globals.css",
+    "./customNavbar": "./src/components/navbar.tsx"
   },
   "scripts": {
     "build": "tailwindcss -i ./src/globals.css -o ./dist/globals.css",
@@ -28,8 +29,14 @@
     "@types/react-dom": "^18.2.19",
     "autoprefixer": "^10.4.19",
     "eslint": "^8.57.0",
+    "postcss": "^8",
     "react": "^18.2.0",
     "tailwindcss": "^3.4.3",
     "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "@emotion/is-prop-valid": "^1.2.2",
+    "@nextui-org/react": "^2.3.6",
+    "framer-motion": "^11.2.4"
   }
 }

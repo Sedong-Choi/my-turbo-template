@@ -1,38 +1,17 @@
 import type { Config } from "tailwindcss";
-const config: Omit<Config, "content"> = {
-  theme: {
-    screens: {
-      sm: '480px',
-      md: '768px',
-      lg: '976px',
-      xl: '1440px',
-    },
-    colors: {
-      'blue': '#1fb6ff',
-      'purple': '#7e5bef',
-      'pink': '#ff49db',
-      'orange': '#ff7849',
-      'green': '#13ce66',
-      'yellow': '#ffc82c',
-      'gray-dark': '#273444',
-      'gray': '#8492a6',
-      'gray-light': '#d3dce6',
-    },
-    extend: {
-      spacing: {
-        '128': '32rem',
-        '144': '36rem',
-      },
-      borderRadius: {
-        '4xl': '2rem',
-      },
-      backgroundImage: {
-        "glow-conic":
-          "conic-gradient(from 180deg at 50% 50%, #2a8af6 0deg, #a853ba 180deg, #e92a67 360deg)",
-      },
-    }
-  },
-  plugins: [],
+import { nextui } from "@nextui-org/react";
+const config: Omit<Config, "content"|"theme"|"darkMode"|"plugins"> = {
+  content:[
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./app/*.{js,ts,jsx,tsx,mdx}", // web directories
+    "./app/**/*.{js,ts,jsx,tsx,mdx}", // web directories
+    "./src/**/*.{js,ts,jsx,tsx,mdx}", // storybook directories
+    "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
+  ],
+  darkMode:"class",
+  plugins: [nextui()],
 }
 
 

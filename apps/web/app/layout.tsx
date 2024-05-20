@@ -1,9 +1,5 @@
-import "./test.css";
-import "@repo/ui/globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-
-const inter = Inter({ subsets: ["latin"] });
+import { Provider } from "./provider";
 
 export const metadata: Metadata = {
   title: "Create Turborepo",
@@ -14,10 +10,12 @@ export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
-}): JSX.Element {
+}): React.ReactNode {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="en" className='dark'>
+      <body>
+        <Provider>{children}</Provider>
+      </body>
     </html>
   );
 }

@@ -7,4 +7,5 @@ module.exports = {
     project: "./tsconfig.lint.json",
     tsconfigRootDir: __dirname,
   },
+  exclude:["./tailwind.config.ts"]
 };
