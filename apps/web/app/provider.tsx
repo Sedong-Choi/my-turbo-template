@@ -1,5 +1,4 @@
 "use client";
-
 import { NextUIProvider } from "@nextui-org/react";
 export interface ProviderProps {
   children: React.ReactNode;

@@ -4,7 +4,6 @@ const config: Omit<Config, "content" | "theme" | "darkMode" | "plugins"> = {
     mode: 'jit',
     content: [
         "./app/**/*.{js,ts,jsx,tsx,mdx}",// for web 
-        "./app/**/*.{js,ts,jsx,tsx,mdx}", // for web 
         "./src/**/*.{js,ts,jsx,tsx,mdx}", // for storybook & ui package
         "./components/**/*.{js,ts,jsx,tsx,mdx}", // for ui
         "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}", // for ui
