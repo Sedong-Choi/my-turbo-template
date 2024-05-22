@@ -21,9 +21,12 @@ const config: StorybookConfig = {
     name: getAbsolutePath("@storybook/nextjs"),
     options: {},
   },
-  docs: {
-    autodocs: "tag",
-  },
+  // core: {
+  //   disableTelemetry: true
+  // },
+  // typescript: {
+  //   reactDocgen: false,
+  // },
   staticDirs: ["../public"],
 };
 export default config;

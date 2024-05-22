@@ -1,10 +1,12 @@
 import { Button } from "@nextui-org/react";
+import Navbar from "@repo/ui/customNavbar";
 
 export default function Page(): JSX.Element {
   return (
     <main >
-      <h1>Hello world</h1>
-      <Button color="primary">TestButton</Button>
+      <Navbar />
+      <h1 className="text-3xl font-bold underline" >Hello world</h1>
+      <Button color="primary">Test Button</Button>
     </main>
   );
 }
