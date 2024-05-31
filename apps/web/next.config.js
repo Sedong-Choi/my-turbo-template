@@ -1,10 +1,12 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
+  reactStrictMode: true,
   transpilePackages: [
     "@repo/ui",
-    "@nextui-org/react",
-    "@nextui-org/theme",
-    "@nextui-org/system",
+    "@repo/tailwind-config",
   ],
+  env: {
+    APP_NAME: process.env.APP_NAME,
+  },
 };
 

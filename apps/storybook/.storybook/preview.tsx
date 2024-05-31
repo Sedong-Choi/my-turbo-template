@@ -2,17 +2,17 @@
 import React from 'react';
 import {themes} from "@storybook/theming";
 import type { Preview } from "@storybook/react";
-import {NextUIProvider} from "@nextui-org/react";
+import {Provider} from "@repo/ui/Provider";
 import "./globals.css"
 
 const decorators: Preview["decorators"] = [
   (Story) => {
     return (
-      <NextUIProvider >
+      <Provider >
         <div className="bg-dark">
           <Story />
         </div>
-      </NextUIProvider>
+      </Provider>
     );
   },
 ];

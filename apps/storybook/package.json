@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "pnpm run storybook",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
