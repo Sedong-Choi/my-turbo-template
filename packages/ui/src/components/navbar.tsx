@@ -17,10 +17,9 @@ import {
   DropdownMenu,
   DropdownItem,
 } from "@nextui-org/react";
-
+import NextLink from "next/link";
 import { ThemeSwitch } from "./theme-switch";
 import { CustomNavbarProps, ProfileMenuItem } from "../types";
-
 const CustomNavbar = ({
   userInfo,
   navItems,
@@ -41,10 +40,16 @@ const CustomNavbar = ({
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           className="sm:hidden"
         />
-        <NavbarBrand>
-          <p className="font-bold hidden md:flex text-inherit">
-            {process.env.APP_NAME ?? "My App"}
-          </p>
+        <NavbarBrand as="li" className="gap-3 max-w-fit">
+          <Link
+            aria-label="Home"
+            className="flex justify-start items-center gap-2 tap-highlight-transparent transition-opacity active:opacity-50"
+            href="/"
+          >
+            <p className="font-bold hidden md:flex text-inherit">
+              {process.env.APP_NAME ?? "My App"}
+            </p>
+          </Link>
         </NavbarBrand>
       </NavbarContent>
       <NavbarMenu>
@@ -71,12 +76,13 @@ const CustomNavbar = ({
             <Link href={item.href}>{item.text}</Link>
           </NavbarItem>
         ))}
+      </NavbarContent>
+
+      <NavbarContent as="div" justify="end">
         <NavbarItem>
           <ThemeSwitch />
         </NavbarItem>
-      </NavbarContent>
-      {isLoggedIn ? (
-        <NavbarContent as="div" justify="end">
+        {isLoggedIn ? (
           <Dropdown placement="bottom-end">
             <DropdownTrigger>
               <Avatar
@@ -96,7 +102,7 @@ const CustomNavbar = ({
               {menuItems?.map((item: ProfileMenuItem) => (
                 <DropdownItem
                   key={item.text}
-                  as={Link}
+                  as={NextLink}
                   href={item.href}
                   className={item?.class?.join(" ")}
                 >
@@ -104,34 +110,33 @@ const CustomNavbar = ({
                 </DropdownItem>
               ))}
               <DropdownItem
-                  key="logout"
-                  as={Link}
-                  href="/logout"
-                  className="danger"
-                >
-                  Log Out
-                </DropdownItem>
+                key="logout"
+                as={NextLink}
+                href="/logout"
+                className="danger"
+              >
+                Log Out
+              </DropdownItem>
             </DropdownMenu>
           </Dropdown>
-        </NavbarContent>
-      ) : (
-        <NavbarContent justify="end">
-          <NavbarItem>
-            {/* TODO  */}
-            <Link
-              // href="/login"
-              onClick={() => setIsLoggedIn(true)}
-            >
-              Login
-            </Link>
-          </NavbarItem>
-          <NavbarItem>
-            <Button as={Link} color="primary" href="/sign-up" variant="flat">
-              Sign Up
-            </Button>
-          </NavbarItem>
-        </NavbarContent>
-      )}
+        ) : (
+          <>
+            <NavbarItem>
+              <Link
+                as={NextLink}
+                href="/login"
+              >
+                Login
+              </Link>
+            </NavbarItem>
+            <NavbarItem>
+              <Button as={NextLink} color="primary" href="/sign-up" variant="flat">
+                Sign Up
+              </Button>
+            </NavbarItem>
+          </>
+        )}
+      </NavbarContent>
     </Navbar>
   );
 };

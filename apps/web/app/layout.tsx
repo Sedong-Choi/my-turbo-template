@@ -3,7 +3,6 @@ import { Provider } from "@repo/ui/Provider";
 import Navbar from "@repo/ui/CustomNavbar";
 import "./globals.css"; // tailwindcss 활성화 위한 작업
 
-
 // TODO remove this after auth logic is implemented
 import { navItems, profileMenuItems, userInfo } from "@repo/ui/mock";
 export const metadata: Metadata = {
@@ -16,7 +15,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }): React.ReactNode {
-  
   return (
     <html suppressHydrationWarning>
       <body>
@@ -30,7 +28,7 @@ export default function RootLayout({
             // isLoggedIn={isLoggedIn}
             // setIsLoggedIn={setIsLoggedIn}
           />
-          {children}
+          <main>{children}</main>
         </Provider>
       </body>
     </html>

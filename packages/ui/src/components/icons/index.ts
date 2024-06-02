@@ -1,8 +1,4 @@
-import { SunFilledIcon } from "./sun-filled-icon";
-import { MoonFilledIcon } from "./moon-filled-icon";
-
-
-export {
-    SunFilledIcon,
-    MoonFilledIcon
-};
+export { EyeFilledIcon } from "./eye-filled-icon";
+export { EyeSlashFilledIcon } from "./eye-slash-filled-icon";
+export { SunFilledIcon } from "./sun-filled-icon";
+export { MoonFilledIcon } from "./moon-filled-icon";

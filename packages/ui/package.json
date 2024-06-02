@@ -8,8 +8,10 @@
     "./CustomButton": "./src/test-button.tsx",
     "./CustomNavbar": "./src/components/navbar.tsx",
     "./Provider": "./src/provider/provider.tsx",
+    "./LoginCard":"./src/components/login-card.tsx",
     "./types": "./src/types/index.ts",
-    "./mock":"./src/mock/index.ts"
+    "./mock": "./src/mock/index.ts",
+    "./SignupCard": "./src/components/signup-card.tsx"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",
@@ -35,6 +37,7 @@
   "dependencies": {
     "@emotion/is-prop-valid": "^1.2.2",
     "@nextui-org/react": "^2.3.6",
+    "canvas-confetti": "^1.9.3",
     "framer-motion": "^11.2.4",
     "next-themes": "^0.3.0",
     "react": "^18.2.0",
