@@ -1,58 +1,51 @@
 "use client";
-import React, { useState } from "react";
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  Input,
-  Link,
-  Button,
-} from "@nextui-org/react";
-import { EyeSlashFilledIcon, EyeFilledIcon } from "./icons";
+import React, { useRef, useState } from "react";
+import { Card, CardHeader, CardBody, Link, Button } from "@nextui-org/react";
 import GoogleButton from "./social-login-buttons/google-button";
 import FacebookButton from "./social-login-buttons/facebook-button";
 import NextLink from "next/link";
+import { EmailInput, PasswordInput } from "./inputs";
+import useValidateForm from "../../hooks/useValidateForm";
+import { focusOnFirstErrorField } from "../../utils/focus";
 interface LoginCardProps {
   className?: string;
 }
 const LoginCard = ({ className }: LoginCardProps) => {
-  const [isVisible, setIsVisible] = useState(false);
+  const { values, errors, handleChange, validateForm, isValid } =
+    useValidateForm("login");
+  const refs = {
+    emailRef: useRef<HTMLInputElement>(),
+    passwordRef: useRef<HTMLInputElement>(),
+  };
 
-  const toggleVisibility = () => setIsVisible(!isVisible);
-
+  const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    validateForm();
+    focusOnFirstErrorField(refs, errors);
+    if (isValid) {
+      console.log("Login successful");
+    }
+  };
   return (
     <div className={`flex h-full items-center justify-center  ${className}`}>
       <Card className="min-w-96 rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-900 flex-col flex h-full items-center justify-center sm:px-4">
         <CardHeader className="text-2xl font-bold mb-6">Login</CardHeader>
         <CardBody>
-          <form className="flex flex-col gap-4 pb-4">
-            <Input
-              type="email"
-              label="Email"
-              required
-              labelPlacement="outside"
-              placeholder="Enter your username"
+          <form className="flex flex-col gap-4 pb-4" onSubmit={onSubmitHandler}>
+            <EmailInput
+              ref={refs.emailRef}
+              email={values.email}
+              errorMessage={errors.email?.text}
+              onChange={(e) => handleChange("email", e.target.value)}
+              page="login"
             />
-            <Input
-              label="Password"
-              required
-              labelPlacement="outside"
-              placeholder="Enter your password"
-              endContent={
-                <button
-                  className="focus:outline-none"
-                  type="button"
-                  onClick={toggleVisibility}
-                >
-                  {isVisible ? (
-                    <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
-                  ) : (
-                    <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
-                  )}
-                </button>
-              }
-              type={isVisible ? "text" : "password"}
-              className="max-w-xs"
+            <PasswordInput
+              ref={refs.passwordRef}
+              password={values.password}
+              errorMessage={errors.password?.text}
+              onChange={(e) => handleChange("password", e.target.value)}
+              type="current-password"
+              page="login"
             />
             <p className="mt-2 cursor-pointer text-blue-500 hover:text-blue-600">
               Forgot password?
