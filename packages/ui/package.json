@@ -11,7 +11,8 @@
     "./LoginCard":"./src/components/login-card.tsx",
     "./types": "./src/types/index.ts",
     "./mock": "./src/mock/index.ts",
-    "./SignupCard": "./src/components/signup-card.tsx"
+    "./SignupCard": "./src/components/signup-card.tsx",
+    "./CustomInput": "./src/components/inputs.tsx"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",

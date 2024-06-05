@@ -4,7 +4,7 @@ import { Card, CardHeader, CardBody, Link, Button } from "@nextui-org/react";
 import GoogleButton from "./social-login-buttons/google-button";
 import FacebookButton from "./social-login-buttons/facebook-button";
 import NextLink from "next/link";
-import { EmailInput, PasswordInput } from "./inputs";
+import { CustomInput } from "./inputs";
 import useValidateForm from "../../hooks/useValidateForm";
 import { focusOnFirstErrorField } from "../../utils/focus";
 interface LoginCardProps {
@@ -32,20 +32,25 @@ const LoginCard = ({ className }: LoginCardProps) => {
         <CardHeader className="text-2xl font-bold mb-6">Login</CardHeader>
         <CardBody>
           <form className="flex flex-col gap-4 pb-4" onSubmit={onSubmitHandler}>
-            <EmailInput
+            <CustomInput
               ref={refs.emailRef}
-              email={values.email}
+              value={values.email}
+              inputType="email"
               errorMessage={errors.email?.text}
-              onChange={(e) => handleChange("email", e.target.value)}
-              page="login"
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                handleChange("email", e.target.value)
+              }
+              labelPlacement="outside"
             />
-            <PasswordInput
+            <CustomInput
               ref={refs.passwordRef}
-              password={values.password}
+              value={values.password}
               errorMessage={errors.password?.text}
-              onChange={(e) => handleChange("password", e.target.value)}
-              type="current-password"
-              page="login"
+              inputType="password"
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                handleChange("password", e.target.value)
+              }
+              labelPlacement="outside"
             />
             <p className="mt-2 cursor-pointer text-blue-500 hover:text-blue-600">
               Forgot password?

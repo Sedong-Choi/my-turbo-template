@@ -6,12 +6,10 @@ import {Provider} from "@repo/ui/Provider";
 import "./globals.css"
 
 const decorators: Preview["decorators"] = [
-  (Story) => {
+  (Story,{children}) => {
     return (
-      <Provider >
-        <div className="bg-dark">
-          <Story />
-        </div>
+      <Provider themeProps={{ attribute: "class", defaultTheme: "dark" ,children}}>
+          <Story/>
       </Provider>
     );
   },

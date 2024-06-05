@@ -38,6 +38,7 @@ const useValidateForm = (type: validateType) => {
     );
     const [isValid, setIsValid] = useState(false);
     const [targetField, setTargetField] = useState<keyof FormValues | null>(null);
+    const [isDirty, setIsDirty] = useState(false);
     useEffect(() => {
         if (targetField) {
             validateForm(targetField);
@@ -56,6 +57,7 @@ const useValidateForm = (type: validateType) => {
             for (const field in values) {
                 validateField(field as keyof FormValues);
             }
+            setIsDirty(true);
         }
         setErrors(newErrors);
         setIsValid(Object.keys(newErrors).length === 0);
@@ -109,6 +111,9 @@ const useValidateForm = (type: validateType) => {
             ...prevValues,
             [name]: value,
         }));
+        if( type === 'login' && !isDirty) {
+            return ;
+        }
         setTargetField(name);
     };
 

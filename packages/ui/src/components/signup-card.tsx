@@ -1,7 +1,7 @@
 "use client";
 import React, { useRef, useState } from "react";
 import { Card, CardHeader, CardBody, Input, Button } from "@nextui-org/react";
-import { EmailInput, PasswordInput } from "./inputs";
+import { CustomInput } from "./inputs";
 import useValidateForm from "../../hooks/useValidateForm";
 import { focusOnFirstErrorField } from "../../utils/focus";
 
@@ -27,6 +27,7 @@ const SignupCard = ({ onSignUp, className }: SignUpCardProps) => {
     e.preventDefault();
     validateForm();
     focusOnFirstErrorField(refs, errors);
+    console.log( errors);
     if (isValid) {
       console.log("Sign up successful");
     }
@@ -38,33 +39,38 @@ const SignupCard = ({ onSignUp, className }: SignUpCardProps) => {
         <CardHeader className="text-2xl font-bold mb-6">Sign Up</CardHeader>
         <CardBody>
           <form className="flex flex-col gap-4 pb-4">
-            <EmailInput
+            <CustomInput
               ref={refs.emailRef}
-              email={values.email}
-              onChange={(e) => handleChange("email", e.target.value)}
+              value={values.email}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                handleChange("email", e.target.value)
+              }
               errorMessage={errors.email?.text}
-              page="signup"
+              inputType="email"
+              labelPlacement="outside"
             />
-            <PasswordInput
+            <CustomInput
               ref={refs.passwordRef}
-              password={values.password}
-              onChange={(e) => handleChange("password", e.target.value)}
+              value={values.password}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                handleChange("password", e.target.value)
+              }
               errorMessage={errors.password?.text}
-              type="current-password"
-              page="signup"
+              inputType="password"
+              labelPlacement="outside"
             />
-            <PasswordInput
+            <CustomInput
               ref={refs.confirmPasswordRef}
-              password={values.password}
-              confirmPassword={values.confirmPassword}
-              onChange={(e) => handleChange("confirmPassword", e.target.value)}
+              value={values.confirmPassword}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                handleChange("confirmPassword", e.target.value)
+              }
               errorMessage={errors.confirmPassword?.text}
-              type="confirm-password"
-              page="signup"
+              inputType="confirm-password"
+              labelPlacement="outside"
             />
-            <Input
+            <CustomInput
               ref={refs.userNameRef}
-              type="text"
               label="User name"
               value={values.userName}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -72,10 +78,10 @@ const SignupCard = ({ onSignUp, className }: SignUpCardProps) => {
               }
               isInvalid={!!errors.userName}
               errorMessage={errors.userName?.text}
-              isRequired
-              labelPlacement="outside"
-              placeholder="Enter your username"
+              inputType="text"
               color={!!errors.userName ? "danger" : "primary"}
+              placeholder="Enter your username"
+              labelPlacement="outside"
             />
             <div className="flex flex-col gap-2">
               <Button
