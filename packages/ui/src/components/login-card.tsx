@@ -1,29 +1,55 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { Card, CardHeader, CardBody, Link, Button } from "@nextui-org/react";
-import GoogleButton from "./social-login-buttons/google-button";
-import FacebookButton from "./social-login-buttons/facebook-button";
 import NextLink from "next/link";
 import { CustomInput } from "./inputs";
 import useValidateForm from "../../hooks/useValidateForm";
 import { focusOnFirstErrorField } from "../../utils/focus";
+
 interface LoginCardProps {
   className?: string;
+  children?: React.ReactNode;
+  onSignIn: (
+    provider: string,
+    options: { redirect: boolean; email: string; password: string }
+  ) => void;
 }
-const LoginCard = ({ className }: LoginCardProps) => {
-  const { values, errors, handleChange, validateForm, isValid } =
+const LoginCard = ({ className, children, onSignIn }: LoginCardProps) => {
+  const { values, errors, handleChange, validateForm } =
     useValidateForm("login");
   const refs = {
     emailRef: useRef<HTMLInputElement>(),
     passwordRef: useRef<HTMLInputElement>(),
   };
 
-  const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+    console.log("clicked-1");
     e.preventDefault();
-    validateForm();
+    // Check if the active element is a social button
+    const activeElement = document.activeElement as HTMLElement;
+    console.log(activeElement);
+    if (activeElement.id.includes("social-button")) {
+      console.log("Social button was clicked");
+      return;
+    }
+
+    const isValid = await validateForm();
     focusOnFirstErrorField(refs, errors);
     if (isValid) {
-      console.log("Login successful");
+      const response: any = await onSignIn("credentials", {
+        email: values.email,
+        password: values.password,
+        redirect: false,
+      });
+
+      if (!response?.error) {
+        console.log("Login Successful", response);
+        window.location.href="/"
+      }
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
     }
   };
   return (
@@ -52,9 +78,9 @@ const LoginCard = ({ className }: LoginCardProps) => {
               }
               labelPlacement="outside"
             />
-            <p className="mt-2 cursor-pointer text-blue-500 hover:text-blue-600">
+            {/* <p className="mt-2 cursor-pointer text-blue-500 hover:text-blue-600">
               Forgot password?
-            </p>
+            </p> */}
             <div className="flex flex-col gap-2">
               <Button
                 type="submit"
@@ -62,8 +88,7 @@ const LoginCard = ({ className }: LoginCardProps) => {
               >
                 Login
               </Button>
-              <GoogleButton handleClick={() => {}} type="login" />
-              <FacebookButton handleClick={() => {}} type="login" />
+              {children}
             </div>
           </form>
           <div className="min-w-[270px]">

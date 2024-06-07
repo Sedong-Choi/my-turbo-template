@@ -24,15 +24,12 @@ const CustomNavbar = ({
   userInfo,
   navItems,
   menuItems,
-  // isLoggedIn,
-  // setIsLoggedIn,
+  isLoggedIn,
+  signOut,
   ...props
 }: CustomNavbarProps) => {
   const ref = useRef(null);
   const [isMenuOpen, setIsMenuOpen] = useState<boolean | undefined>(false);
-
-  // login 상태에따른 isLoggin 건내주는 로직 만들기
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   return (
     <Navbar onMenuOpenChange={setIsMenuOpen} ref={ref} {...props}>
       <NavbarContent>
@@ -111,8 +108,8 @@ const CustomNavbar = ({
               ))}
               <DropdownItem
                 key="logout"
-                as={NextLink}
-                href="/logout"
+                as="button"
+                onClick={()=>signOut()}
                 className="danger"
               >
                 Log Out

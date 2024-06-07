@@ -4,16 +4,17 @@ import { Card, CardHeader, CardBody, Input, Button } from "@nextui-org/react";
 import { CustomInput } from "./inputs";
 import useValidateForm from "../../hooks/useValidateForm";
 import { focusOnFirstErrorField } from "../../utils/focus";
+import { SignUpFormProps } from "../types";
+import { ToastContainer, toast } from "react-toastify";
 
 interface SignUpCardProps {
-  onSignUp: () => void;
+  onSignUp: (options: SignUpFormProps) => Promise<any>;
   className?: string;
 }
 
 const SignupCard = ({ onSignUp, className }: SignUpCardProps) => {
-  const { values, errors, handleChange, validateForm, isValid } =
+  const { values, errors, handleChange, validateForm } =
     useValidateForm("signup");
-
   const refs = {
     emailRef: useRef<HTMLInputElement>(),
     passwordRef: useRef<HTMLInputElement>(),
@@ -21,15 +22,34 @@ const SignupCard = ({ onSignUp, className }: SignUpCardProps) => {
     userNameRef: useRef<HTMLInputElement>(),
   };
 
-  const onSubmitHandler = (
+  const onSubmitHandler = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
-    validateForm();
+    const isValid = await validateForm();
     focusOnFirstErrorField(refs, errors);
-    console.log( errors);
     if (isValid) {
-      console.log("Sign up successful");
+      toast
+        .promise(
+          onSignUp({
+            email: values.email,
+            password: values.password,
+            name: values.userName ?? "",
+          }),
+          {
+            pending: "Signing Up...",
+            success: "Successfully SignUp",
+            error: "User already exists",
+          }
+        )
+        .then((res: any) => {
+          console.log(res);
+          if(res.message === "success"){
+            window.location.href = "/login";
+          }
+        }).catch((err: any) => {
+          console.log(err);
+        });
     }
   };
 

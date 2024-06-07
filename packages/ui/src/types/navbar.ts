@@ -6,6 +6,7 @@ export interface LinkItem {
 export interface UserInfo {
     email: string;
     name: string;
+    id?:number;
 }
 
 export interface ProfileMenuItem extends LinkItem{
@@ -20,6 +21,5 @@ export interface CustomNavbarProps {
     position?: "static" | "fixed";
     maxWidth?: "sm"| "md"| "lg"| "xl"| "2xl"| "full";
     isBlurred?: boolean;
-    // TODO remove this after auth logic is implemented
-    setIsLoggedIn? : (isLoggedIn: boolean) => void;
+    signOut?: () => void;
 }

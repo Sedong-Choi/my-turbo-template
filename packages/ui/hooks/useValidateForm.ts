@@ -32,11 +32,13 @@ function setInitialValues(type: validateType): FormValues {
         : signupFields.reduce((acc, field) => ({ ...acc, [field]: '' }), baseFields);
 }
 const useValidateForm = (type: validateType) => {
+    // login and signup error focus order
     const errorOrder = ['email', 'password', 'confirmPassword', 'userName'];
+
+    
     const [values, setValues] = useState<FormValues>(
         setInitialValues(type)
     );
-    const [isValid, setIsValid] = useState(false);
     const [targetField, setTargetField] = useState<keyof FormValues | null>(null);
     const [isDirty, setIsDirty] = useState(false);
     useEffect(() => {
@@ -46,23 +48,23 @@ const useValidateForm = (type: validateType) => {
     }, [targetField, values]);
     const [errors, setErrors] = useState<FormErrors>({});
 
-    const validateForm = (fieldName?: keyof FormValues) => {
+    const validateForm = async (fieldName?: keyof FormValues): Promise<boolean> => {
         const newErrors: FormErrors = { ...errors };
 
         if (fieldName) {
             // Validate only the specified field
-            validateField(fieldName);
+            await validateField(fieldName);
         } else {
             // Validate all fields
             for (const field in values) {
-                validateField(field as keyof FormValues);
+                await validateField(field as keyof FormValues);
             }
             setIsDirty(true);
         }
         setErrors(newErrors);
-        setIsValid(Object.keys(newErrors).length === 0);
+        return Object.keys(newErrors).length === 0;
 
-        function validateField(field: keyof FormValues) {
+        async function validateField(field: keyof FormValues) {
             switch (field) {
                 case 'email':
                     if (!values.email) {
@@ -122,7 +124,6 @@ const useValidateForm = (type: validateType) => {
         errors,
         handleChange,
         validateForm,
-        isValid
     };
 }
 
