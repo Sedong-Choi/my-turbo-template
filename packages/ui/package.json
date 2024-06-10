@@ -4,8 +4,8 @@
   "private": true,
   "exports": {
     "./theme-switch": "./src/theme-switch.tsx",
-    "./CustomCard": "./src/card.tsx",
-    "./CustomButton": "./src/test-button.tsx",
+    "./PostCard": "./src/components/post-card.tsx",
+    "./CustomButton": "./src/confetti-button.tsx",
     "./CustomNavbar": "./src/components/navbar.tsx",
     "./Provider": "./src/provider/provider.tsx",
     "./LoginCard": "./src/components/login-card.tsx",

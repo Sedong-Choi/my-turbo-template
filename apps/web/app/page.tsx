@@ -1,12 +1,13 @@
+// import CardWrapper from "@/components/main-card-wrapper";
 import CustomButton from "@repo/ui/CustomButton";
-
+// import PostCard from "@repo/ui/PostCard";
+// import {posts} from "@repo/ui/mock"
 export default function Page(): JSX.Element {
+  // console.log( posts);
   return (
-    <div className="relative w-full h-full">
     <div className="fixed flex justify-center items-center">
-
-      <CustomButton className={
-        [
+      <CustomButton
+        className={[
           "dark:bg-slate-50",
           "dark:text-slate-900",
           "dark:hover:text-slate-900",
@@ -19,9 +20,11 @@ export default function Page(): JSX.Element {
           "dark:hover:after:absolute",
           "dark:hover:after:inset-0",
           "dark:hover:after:content-['']",
-        ]
-      }>Confetti</CustomButton>
-      </div>
+        ]}
+      >
+        Confetti
+      </CustomButton>
+      {/* <CardWrapper as={PostCard} items={posts} /> */}
     </div>
   );
 }

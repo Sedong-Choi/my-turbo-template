@@ -6,6 +6,7 @@ import { SessionProvider, signOut } from "next-auth/react";
 // TODO remove this after auth logic is implemented
 import { navItems, profileMenuItems, userInfo } from "@repo/ui/mock";
 import { auth } from "@/auth";
+import { useRef } from "react";
 
 export const metadata: Metadata = {
   title: "Create Turborepo",
@@ -28,6 +29,7 @@ export default async function RootLayout({
     userInfo.email = "";
     userInfo.name = "";
   }
+
   return (
     <html suppressHydrationWarning>
       <body>
@@ -42,9 +44,8 @@ export default async function RootLayout({
                 userInfo={userInfo}
                 signOut={signOut}
                 isLoggedIn={userInfo.email || userInfo.name ? true : false}
-                // setIsLoggedIn={setIsLoggedIn}
               />
-              <div>{children}</div>
+              <div className="relative h-full w-full">{children}</div>
             </main>
           </SessionProvider>
         </Provider>

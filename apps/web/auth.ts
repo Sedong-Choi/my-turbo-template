@@ -73,8 +73,7 @@ const config = {
       if (token?.accessToken) {
         session.accessToken = token.accessToken
       }
-      console.log("session", session);
-      return session
+         return session
     },
     // signIn: async ({user, account, profile}) => {
     //   return Promise.resolve('/')  // 로그인 후 리디렉션할 경로를 여기에 설정하세요.
