@@ -4,22 +4,22 @@ export const userInfo = { name: "김예시", email: "example@example.com" };
 
 export const navItems: LinkItem[] = [
     {
-        text: "구인구직",
+        text: "Jobs",
         href: "/incruits",
     },
     {
-        text: "자유게시판",
+        text: "Blog",
         href: "/posts",
     },
 ];
 
 export const profileMenuItems: ProfileMenuItem[] = [
     {
-        text: "내 정보",
+        text: "Profile",
         href: "/profile",
     },
     {
-        text: "설정",
+        text: "Settings",
         href: "/settings",
     }
 ];
