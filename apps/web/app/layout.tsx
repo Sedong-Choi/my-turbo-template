@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Provider } from "@repo/ui/Provider";
 import Navbar from "@repo/ui/CustomNavbar";
-import "./globals.css"; // tailwindcss 활성화 위한 작업
+import "./globals.css";
 import { SessionProvider, signOut } from "next-auth/react";
 // TODO remove this after auth logic is implemented
 import { navItems, profileMenuItems, userInfo } from "@repo/ui/mock";
@@ -20,11 +20,10 @@ export default async function RootLayout({
   // nextauth session
   const session = await auth();
 
-  console.log( "session user!!",session);
-  if( session?.user){
+  if (session?.user) {
     userInfo.email = session.user.email ?? "";
     userInfo.name = session.user.name ?? "";
-  }else{
+  } else {
     // test data reset
     userInfo.email = "";
     userInfo.name = "";
@@ -36,15 +35,17 @@ export default async function RootLayout({
           themeProps={{ attribute: "class", defaultTheme: "dark", children }}
         >
           <SessionProvider session={session}>
-            <Navbar
-              navItems={navItems}
-              menuItems={profileMenuItems}
-              userInfo={userInfo}
-              signOut={signOut}
-              isLoggedIn={userInfo.email || userInfo.name ? true : false}
-              // setIsLoggedIn={setIsLoggedIn}
-            />
-            <main>{children}</main>
+            <main className="h-screen">
+              <Navbar
+                navItems={navItems}
+                menuItems={profileMenuItems}
+                userInfo={userInfo}
+                signOut={signOut}
+                isLoggedIn={userInfo.email || userInfo.name ? true : false}
+                // setIsLoggedIn={setIsLoggedIn}
+              />
+              <div>{children}</div>
+            </main>
           </SessionProvider>
         </Provider>
       </body>
