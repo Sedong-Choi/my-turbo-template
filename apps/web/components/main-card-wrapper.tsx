@@ -1,19 +1,18 @@
-import React from "react";
-
-interface CardWrapperProps {
-  as: any | false;
+import {FC} from "react";
+interface MainCardWrapperProps {
+  as: any ;
   items: any[];
 }
 
-const CardWrapper: React.FC<CardWrapperProps> = ({ as = false, items }) => {
+const MainCardWrapper:FC<MainCardWrapperProps> = ({ as = false, items }) => {
   const ChildComponent = as || "div";
   return (
-    <div className="flex">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
       {items.map((item) => (
-        <ChildComponent key={item.id} {...item} className="w-1/2" />
+        <ChildComponent key={item.id} {...item} className="" />
       ))}
     </div>
   );
 };
 
-export default CardWrapper;
+export default MainCardWrapper;

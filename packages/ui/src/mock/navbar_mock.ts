@@ -1,6 +1,6 @@
 import { LinkItem, ProfileMenuItem } from "@repo/ui/types";
 
-export const userInfo = { name: "김예시", email: "example@example.com" };
+export const userInfo = { name: "Example", email: "example@example.com" };
 
 export const navItems: LinkItem[] = [
     {

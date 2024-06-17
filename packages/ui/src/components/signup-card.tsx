@@ -43,12 +43,12 @@ const SignupCard = ({ onSignUp, className }: SignUpCardProps) => {
           }
         )
         .then((res: any) => {
-          console.log(res);
+          console.log('signup success',res);
           if(res.message === "success"){
             window.location.href = "/login";
           }
         }).catch((err: any) => {
-          console.log(err);
+          console.log('signup error',err);
         });
     }
   };

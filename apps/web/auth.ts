@@ -1,45 +1,87 @@
-import NextAuth from "next-auth"
+import NextAuth, { CredentialsSignin, User, type NextAuthConfig } from "next-auth"
 import "next-auth/jwt"
 import type { Provider } from "next-auth/providers"
 import Google from "next-auth/providers/google"
 import GitHub from "next-auth/providers/github"
-
 import Credentials from "next-auth/providers/credentials"
-import { getUserInfo } from "@repo/ui/Utils"
+
+import { PrismaAdapter } from "@auth/prisma-adapter"
+import prisma from "@/prisma/prisma"
+import passage from "next-auth/providers/passage"
+import { NextRequest, NextResponse } from "next/server"
+
+// TODO fix ater auth.js(next-auth)'s {Credentials} return "throw error" or "null" is working
+class CustomCredentialsSignin extends CredentialsSignin {
+  constructor(type: string, message?: string) {
+    super(message)
+    this.code = "custom_error";
+    this.name = "CustomCredentialsSignin"
+
+    if (message) {
+      this.message = message
+      return;
+    }
+    switch (type) {
+      case "user":
+        this.message = "User not found"
+        break;
+      case "password":
+        this.message = "Password is incorrect"
+        break;
+      default:
+        this.message = "Invalid credentials"
+        break;
+    }
+  }
+}
+
+const VERCEL_DEPLOYMENT = !!process.env.VERCEL_URL;
+
 const providers: Provider[] = [
   Google,
   GitHub,
-  Credentials({
+  /*
+    Warning: Credentials provider is return 'error=Configuration', when user is null or throw error 
+    Cannot handle this error 
+
+    ::caution 
+    Credentials provider is not support session.strategy: "database". only support session.strategy: "jwt"
+  */
+  /* Credentials({
     credentials: {
-      email: {},
-      password: {},
+      email: { label: "Email", type: "email", placeholder: "enter user email" },
+      password: { label: "Password", type: "password" }
     },
-    authorize: async (credentials, request) => { // Update the type of the authorize function
-      try {
-        let user = null
-        // Get the user info from the credentials
-        const { email, password } = credentials as { email: string; password: string }
-        // // logic to salt and hash password
-        // const pwHash = saltAndHashPassword(password)
+    authorize: async (credentials, request) => {
+      console.log( request);
+      const { email, password } = credentials as { email: string; password: string };
 
-        // // logic to verify if user exists
-        user = getUserInfo(email, password)
-
-        if (!user) {
-          throw new Error("User not found.")
-        }
-        console.log("user!! at auth credentials", user);
-        // return json object with the user data
-        return user
-      } catch (error) {
-        // if (error instanceof ZodError) {
-        //   // Return `null` to indicate that the credentials are invalid
-        //   return null
-        // }
+      let user = null;
+      // logic to salt and hash password
+      // const pwHash = saltAndHashPassword(password)
+      const prismaUser = await prisma.user.findFirst({
+        where: {
+          email,
+        },
+      });
+      if (!prismaUser) {
+        throw new CustomCredentialsSignin("user");
       }
-    },
 
-  }),
+      if (prismaUser?.password !== password) {
+        throw new CustomCredentialsSignin("password");
+      }
+
+      user = {
+        name: prismaUser.name,
+        email: prismaUser.email,
+        id: prismaUser.id,
+        image: prismaUser.image,
+      }
+      return user as User
+    },
+  }) */
+
 ]
 
 export const providerMap = providers.map((provider) => {
@@ -50,40 +92,55 @@ export const providerMap = providers.map((provider) => {
     return { id: provider.id, name: provider.name }
   }
 })
-const config = {
+
+const authOptions: NextAuthConfig = {
   providers,
   pages: {
     signIn: "/login",
-    signUp: "/sign-up",
+    error: "/login?error=custom",
   },
-  session: {
-    cookie: {
-      domain: 'localhost',
-      secure: process.env.NODE_ENV === 'production',
-    },
-  },
+  adapter: PrismaAdapter(prisma),
+  // If you use adapter, you don't need to use session and cookies
+  // session: {
+  //   strategy: "database"
+  // },
+  // cookies: {
+  //   sessionToken: {
+  //     name: `${VERCEL_DEPLOYMENT ? "__Secure-" : ""}next-auth.session-token`,
+  //     options: {
+  //       httpOnly: true,
+  //       sameSite: "lax",
+  //       path: "/",
+  //       // When working on localhost, the cookie domain must be omitted entirely (https://stackoverflow.com/a/1188145)
+  //       domain: VERCEL_DEPLOYMENT
+  //         ? `.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`
+  //         : undefined,
+  //       secure: VERCEL_DEPLOYMENT,
+  //     },
+  //   },
+  // },
   callbacks: {
-    jwt({ token, user }: { token: any, user: any }) {
-      if (user) { // User is available during sign-in
-        token.id = user.id!
-      }
-      return token
+    session: async ({ session, token, user }) => {
+      session.user = {
+        ...session.user,
+      };
+      return session;
     },
-    async session({ session, token }: { session: any, token: any }) {
-      if (token?.accessToken) {
-        session.accessToken = token.accessToken
+    signIn: async ({ user ,account, profile, credentials }) => {
+      if (user) {
+        return true;
       }
-         return session
+      return false;
     },
-    // signIn: async ({user, account, profile}) => {
-    //   return Promise.resolve('/')  // 로그인 후 리디렉션할 경로를 여기에 설정하세요.
-    // },
+
   },
-  debug: process.env.NODE_ENV !== "production" ? true : false,
+  // debug: process.env.NODE_ENV !== "production" ? true : false,
+  secret: process.env.NEXTAUTH_SECRET,
+  trustHost: true,
 }
 export const {
   handlers,
   signIn,
   signOut,
   auth
-} = NextAuth(config)
+} = NextAuth(authOptions)

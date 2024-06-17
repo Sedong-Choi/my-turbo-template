@@ -1,23 +1,22 @@
-"use client";
 import LoginCard from "@repo/ui/LoginCard";
-import { Google, Github } from "@repo/ui/Icons";
+import { GoogleIcon, GithubIcon } from "@repo/ui/Icons";
 import { signIn } from "next-auth/react";
 import SocialButton from "@repo/ui/SocialButton";
 
-export default function Login(): JSX.Element {
+export default async function Login() {
   return (
-    <LoginCard className="py-20" onSignIn={signIn}>
+    <LoginCard className="py-20">
       <SocialButton
         provider="google"
-        socialIcon={<Google />}
+        socialIcon={<GoogleIcon />}
         page="login"
-        onClick={signIn}
+        signIn={signIn}
       />
       <SocialButton
         provider="github"
-        socialIcon={<Github />}
+        socialIcon={<GithubIcon />}
         page="login"
-        onClick={signIn}
+        signIn={signIn}
       />
       {/* <SocialButton
         provider="facebook"

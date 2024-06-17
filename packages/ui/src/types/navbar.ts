@@ -6,11 +6,12 @@ export interface LinkItem {
 export interface UserInfo {
     email: string;
     name: string;
-    id?:number;
+    id?: number;
+    image?: string;
 }
 
-export interface ProfileMenuItem extends LinkItem{
-    class? : string[];
+export interface ProfileMenuItem extends LinkItem {
+    class?: string[];
 }
 
 export interface CustomNavbarProps {
@@ -19,7 +20,7 @@ export interface CustomNavbarProps {
     menuItems: LinkItem[];
     isLoggedIn?: boolean;
     position?: "static" | "fixed";
-    maxWidth?: "sm"| "md"| "lg"| "xl"| "2xl"| "full";
+    maxWidth?: "sm" | "md" | "lg" | "xl" | "2xl" | "full";
     isBlurred?: boolean;
     signOut?: () => void;
 }

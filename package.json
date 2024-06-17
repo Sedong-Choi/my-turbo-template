@@ -6,7 +6,8 @@
     "dev": "turbo dev",
     "lint": "turbo lint",
     "storybook": "pnpm --filter storybook storybook",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "web:prisma-studio": "pnpm --filter web db:studio"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",

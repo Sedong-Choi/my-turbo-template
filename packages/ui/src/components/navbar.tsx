@@ -88,7 +88,7 @@ const CustomNavbar = ({
                 className="transition-transform"
                 color="secondary"
                 size="sm"
-                src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+                src={userInfo?.image ? userInfo.image : undefined}
               />
             </DropdownTrigger>
             <DropdownMenu aria-label="Profile Actions" color="secondary">
@@ -126,11 +126,11 @@ const CustomNavbar = ({
                 Login
               </Link>
             </NavbarItem>
-            <NavbarItem>
+            {/* <NavbarItem>
               <Button as={NextLink} color="primary" href="/sign-up" variant="flat">
                 Sign Up
               </Button>
-            </NavbarItem>
+            </NavbarItem> */}
           </>
         )}
       </NavbarContent>
