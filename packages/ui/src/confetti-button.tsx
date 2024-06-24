@@ -1,18 +1,16 @@
 "use client";
 
 import { useRef } from 'react';
-import {Button} from '@nextui-org/react';
+import {Button, type ButtonProps} from '@nextui-org/react';
 import confetti from 'canvas-confetti';
 
 
-interface CustomButtonProps {
-  className?: string[];
-  color?: string;
-  size?: "sm"| "md"| "lg";
-  children?: React.ReactNode | string;
+interface ConfettiButtonProps extends ButtonProps{
+  className?: string;
+  onClick?: () => void;
 }
 
-const CustomButton = ({className,color,size,children}:CustomButtonProps) => {
+const ConfettiButton = ({className,color,size,children,onClick}:ConfettiButtonProps) => {
   const buttonRef = useRef<HTMLButtonElement | null>(null);
 
   const handleConfetti = () => {
@@ -32,7 +30,7 @@ const CustomButton = ({className,color,size,children}:CustomButtonProps) => {
     }
   };
 
-  const mergedClassName = `relative overflow-visible rounded-full hover:-translate-y-1 px-12 shadow-xl bg-background/30 after:content-[''] after:absolute after:rounded-full after:inset-0 after:bg-background/40 after:z-[-1] after:transition after:!duration-500 hover:after:scale-150 hover:after:opacity-0 ${className?.join(" ")}`;
+  const mergedClassName = `relative overflow-visible rounded-full hover:-translate-y-1 px-12 shadow-xl bg-background/30 after:content-[''] after:absolute after:rounded-full after:inset-0 after:bg-background/40 after:z-[-1] after:transition after:!duration-500 hover:after:scale-150 hover:after:opacity-0 ${className}`;
 
   return (
     <Button
@@ -42,10 +40,11 @@ const CustomButton = ({className,color,size,children}:CustomButtonProps) => {
       size={size}
       onPress={handleConfetti}
       color={color}
+      onClick={onClick}
     >
       {children}
     </Button>
   );
 };
 
-export default CustomButton;
+export default ConfettiButton;

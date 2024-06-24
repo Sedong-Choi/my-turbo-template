@@ -7,9 +7,9 @@ interface MainCardWrapperProps {
 const MainCardWrapper:FC<MainCardWrapperProps> = ({ as = false, items }) => {
   const ChildComponent = as || "div";
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 transition-all">
       {items.map((item) => (
-        <ChildComponent key={item.id} {...item} className="" />
+        <ChildComponent key={item.id} {...item}/>
       ))}
     </div>
   );

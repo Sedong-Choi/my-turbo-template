@@ -4,14 +4,11 @@ import { ThemeProvider as NextThemeProvider } from "next-themes";
 import {ThemeProviderProps} from "next-themes/dist/types";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-export interface ProvidersProps {
-  children: React.ReactNode;
-  themeProps?: ThemeProviderProps;
-}
-export function Provider({ children ,themeProps}: ProvidersProps) {
+
+export function Provider({children}: { children: React.ReactNode }) {
   return (
     <NextUIProvider>
-      <NextThemeProvider {...themeProps}>
+      <NextThemeProvider attribute="class" defaultTheme="dark" >
         {children}
         <ToastContainer/>
       </NextThemeProvider>

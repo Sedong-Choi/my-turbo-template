@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { tv } from "tailwind-variants";
+import { tv } from "@nextui-org/react";
 
 const star = tv({
   base: "absolute rounded-full",

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import  {type Metadata } from "next";
 import { Provider } from "@repo/ui/Provider";
 import Navbar from "@repo/ui/CustomNavbar";
 import "./globals.css";
@@ -12,6 +12,9 @@ import {
 import type { UserInfo } from "@repo/ui/types";
 import { auth } from "@/auth";
 import { getMenuItems, getNavItems } from "@/prisma/actions";
+import Footer from "@/components/footer";
+import Background from "@/components/background/background";
+
 
 export const metadata: Metadata = {
   title: `${process.env.APP_NAME} - home`,
@@ -41,26 +44,27 @@ export default async function RootLayout({
   const profileMenuItems = (await getMenuItems()) || mockProfileMenuItems;
   return (
     <html suppressHydrationWarning>
-      <body className="min-h-screen bg-background">
+      <body className="min-h-screen text-foreground bg-background">
         <SessionProvider session={session}>
-          <Provider
-            themeProps={{ attribute: "class", defaultTheme: "dark", children }}
-          >
-            <div className="relative flex flex-col">
-              <main className="container mx-auto max-w-7xl px-6 flex-grow">
-                <Navbar
-                  navItems={navItems}
-                  menuItems={profileMenuItems}
-                  userInfo={userInfo}
-                  signOut={signOut}
-                  isLoggedIn={userInfo.email || userInfo.name ? true : false}
-                />
-                <div className="w-full">{children}</div>
+          <Provider>
+            <div id="app-container">
+              <Navbar
+                navItems={navItems}
+                menuItems={profileMenuItems}
+                userInfo={userInfo}
+                signOut={signOut}
+                isLoggedIn={userInfo.email || userInfo.name ? true : false}
+              />
+              
+                <Background />
+              <main className="w-full mx-auto max-w-7xl px-6 flex-grow">
+                {children}
               </main>
+              <Footer />
             </div>
           </Provider>
         </SessionProvider>
       </body>
-    </html>
+    </html >
   );
 }

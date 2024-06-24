@@ -3,11 +3,11 @@
 import { useRef, useState } from "react";
 import {
   Navbar,
+  NavbarProps,
   NavbarBrand,
   NavbarContent,
   NavbarItem,
   Link,
-  Button,
   NavbarMenuToggle,
   NavbarMenu,
   NavbarMenuItem,
@@ -19,7 +19,14 @@ import {
 } from "@nextui-org/react";
 import NextLink from "next/link";
 import { ThemeSwitch } from "./theme-switch";
-import { CustomNavbarProps, ProfileMenuItem } from "../types";
+export interface CustomNavbarProps extends NavbarProps {
+  userInfo?: UserInfo;
+  navItems: LinkItem[];
+  menuItems: LinkItem[];
+  isLoggedIn?: boolean;
+  signOut?: () => void;
+}
+import { UserInfo, LinkItem, ProfileMenuItem } from "../types";
 const CustomNavbar = ({
   userInfo,
   navItems,
@@ -109,7 +116,7 @@ const CustomNavbar = ({
               <DropdownItem
                 key="logout"
                 as="button"
-                onClick={()=>signOut()}
+                onClick={() => signOut()}
                 className="danger"
               >
                 Log Out

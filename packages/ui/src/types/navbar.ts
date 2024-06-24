@@ -13,14 +13,3 @@ export interface UserInfo {
 export interface ProfileMenuItem extends LinkItem {
     class?: string[];
 }
-
-export interface CustomNavbarProps {
-    userInfo?: UserInfo;
-    navItems: LinkItem[];
-    menuItems: LinkItem[];
-    isLoggedIn?: boolean;
-    position?: "static" | "fixed";
-    maxWidth?: "sm" | "md" | "lg" | "xl" | "2xl" | "full";
-    isBlurred?: boolean;
-    signOut?: () => void;
-}

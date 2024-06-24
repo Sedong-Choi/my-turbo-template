@@ -1,0 +1,74 @@
+
+/* .custom-bg {
+  transition:
+    background-color 0.5s ease,
+    color 0.5s ease;
+} */
+
+.bg-dark {
+  background-color: black;
+  color: white;
+}
+
+
+.box {
+  position: fixed;
+  height: 100vh;
+  transition: translate 2s ease-out, opacity 1s ease;
+  transform-origin: bottom center;
+}
+
+.moon,
+.sun {
+    position: absolute;
+    border-radius: 50%;
+    height: 5rem;
+    width: 5rem;
+    top: 20%;
+    left: 20%; 
+    transform: translateX(-50%); /* 중앙 정렬 */
+}
+.sun {
+  background-color: yellow;
+  box-shadow: 0 0 0.5rem 0.2rem rgba(255, 255, 255, 0.5);
+}
+.moon {
+  box-shadow: 0 0 0.5rem 0.2rem rgb(255, 255, 255, 0.5);
+  background-image: url("../public/moon.jpeg");
+  background-size: cover;
+  background-position: center;
+}
+
+.animate-spinDown.box{
+  transform: rotate(-180deg);
+  opacity:0;
+}
+
+.cloud {
+  position: absolute;
+  background-color: #fff;
+  border-radius: 50% 50% 40% 30%;
+  transform: translateX(50%);
+}
+
+
+/* 구름 모양을 더 자연스럽게 만들기 위한 추가 스타일링 */
+.cloud::before, .cloud::after {
+  content: '';
+  background-color: #fff;
+  border-radius: 50% 50% 40% 30%;
+}
+
+.cloud::before {
+  width: 120%;
+  height: 120%;
+  left: -80%;
+  bottom:0;
+}
+
+.cloud::after {
+  width: 50%;
+  height: 50%;
+  right: 50%;
+  bottom:0;
+}

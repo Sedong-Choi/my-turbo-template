@@ -13,7 +13,7 @@ interface PostCardProps extends CardProps {
 
 const PostCard = forwardRef<"div", PostCardProps>((props, ref) => {
   return (
-    <Card as={Link} className="w-1/2" href={props.href} ref={ref} {...props}>
+    <Card as={Link} className="w-full" href={props.href} ref={ref} {...props}>
       <CardHeader>
         <h2>{props.title}</h2>
       </CardHeader>

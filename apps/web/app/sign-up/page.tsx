@@ -1,3 +1,5 @@
+// deprecated
+
 "use client";
 import SignupCard from "@repo/ui/SignupCard";
 import { apiRequest } from "@repo/ui/Utils";
