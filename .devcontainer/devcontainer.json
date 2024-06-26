@@ -1,0 +1,47 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/typescript-node
+{
+	// default gerated by dev container extension
+	// replace this name with your project name
+	"name": "Node.js & TypeScript",
+	"workspaceFolder":"/workspace", // default: /workspaces
+	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+	// this image includes nvm, yarn, pnpm and zsh
+	"image": "mcr.microsoft.com/devcontainers/typescript-node:1-22-bookworm",
+	"features": {
+		"ghcr.io/devcontainers-contrib/features/zsh-plugins:0": {
+			"omzPlugins": "https://github.com/zsh-users/zsh-syntax-highlighting.git https://github.com/zsh-users/zsh-autosuggestions https://github.com/zsh-users/zsh-completions https://github.com/wting/autojump.git"
+		},
+		"ghcr.io/nils-geistmann/devcontainers-features/zsh:0": {
+			"theme":"agnoster", // default: robbyrussell
+			"plugins":"git zsh-syntax-highlighting zsh-autosuggestions zsh-completions", // default: git
+			"setLocale":true, // default:true
+			"desiredLocale":"en_US.UTF-8" // default: en_US.UTF-8 UTF-8
+		}
+	},
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	// "features": {},
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+	// Use 'postCreateCommand' to run commands after the container is created.
+	"postCreateCommand": "npm install -g pnpm@9.1.0; pnpm install;",
+	// Configure tool-specific properties.
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"mhutchie.git-graph",
+				"dbaeumer.vscode-eslint",
+				"esbenp.prettier-vscode",
+				"formulahendry.auto-complete-tag",
+				"formulahendry.auto-close-tag",
+				"formulahendry.auto-rename-tag",
+				"steoates.autoimport",
+				"eamodio.gitlens",
+				"ms-vscode.js-debug-nightly",
+				"PulkitGangwar.nextjs-snippets"
+			]
+		}
+	},
+	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+	// "remoteUser": "developer"
+}
