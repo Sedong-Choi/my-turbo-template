@@ -1,4 +1,7 @@
-const Day = () => {
+interface DayProps {
+    theme: string|undefined;
+}
+const Day = ({ theme }: DayProps) => {
     return (
         <>
             <div className="sun"></div>

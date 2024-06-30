@@ -27,13 +27,17 @@ const config: Pick<Config, "content" | "theme" | "darkMode" | "plugins"> = {
                     '100%': { transform: 'rotate(0deg)' },
                 },
                 "move-to-left": {
-                    "0%": { transform: 'translateX(100%)' },
-                    "100%": { transform: 'translateX(-100%)' }
+                    "0%": { marginLeft: "100%" ,
+                        transform: 'translateX(100%)'
+                    },
+                    "100%": { marginLeft:"0" }
                 },
                 "move-to-right": {
-                    "0%": { transform: 'translateX(-100%)' },
-                    "100%": { transform: 'translateX(100%)' },
-                }
+                    "0%": { marginRight: "100%" ,
+                        transform: 'translateX(-100%)'
+                    },
+                    "100%": { marginRight:"0" }
+                },
             },
             animation: {
                 'orbit-test': 'spin 1s linear infinite',

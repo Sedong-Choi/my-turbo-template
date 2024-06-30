@@ -17,7 +17,8 @@
     "./Icons": "./src/components/icons/index.ts",
     "./Utils": "./utils/index.ts",
     "./SolarSystem": "./src/components/solar-system.tsx",
-    "./shared.css":"./src/shared.css"
+    "./shared.css":"./src/shared.css",
+    "./animations":"./src/animations/index.ts"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",
