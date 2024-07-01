@@ -6,11 +6,6 @@ interface NightProps {
 const Night = ({ theme }: NightProps) => {
     return (
         <>
-            {
-                theme === "dark" && (
-                    <Snow maxParticle={500} animationSpeed={30}/>
-                )
-            }
             <div className="moon"></div>
         </>
     )

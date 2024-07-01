@@ -4,7 +4,10 @@ import "@/styles/custom-background.css";
 import Night from './night';
 import Day from './day';
 
+import Cloud from "@repo/ui/cloud";
+
 import { useTheme } from 'next-themes';
+import Snow from './snow';
 const Background: React.FC = () => {
     const [isMounted, setIsMounted] = useState(false);
     const { theme } = useTheme();
@@ -25,6 +28,12 @@ const Background: React.FC = () => {
                     <Day theme={theme}/>
                 </div>
             </div>
+            {
+                theme === "dark" && (
+                    <Snow maxParticle={500} animationSpeed={30}/>
+                )
+            }
+            <Cloud/>
         </div>
     );
 };
