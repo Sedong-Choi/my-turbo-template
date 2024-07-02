@@ -1,6 +1,6 @@
 // replace to database search function
-import { userTable } from '../src/mock/user';
-import { UserInfo } from '../src/types/navbar';
+import { userTable } from '../mock/user';
+import { UserInfo } from '../types/navbar';
 export function userExists(email: string): boolean {
     return userTable.some(user => user.email === email);
 }

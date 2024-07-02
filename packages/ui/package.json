@@ -15,7 +15,7 @@
     "./CustomInput": "./src/components/inputs.tsx",
     "./SocialButton": "./src/components/social-button.tsx",
     "./Icons": "./src/components/icons/index.ts",
-    "./Utils": "./utils/index.ts",
+    "./Utils": "./src/utils/index.ts",
     "./SolarSystem": "./src/components/solar-system.tsx",
     "./shared.css":"./src/shared.css",
     "./animations":"./src/animations/index.ts",
