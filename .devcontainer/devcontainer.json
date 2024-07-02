@@ -38,7 +38,8 @@
 				"steoates.autoimport",
 				"eamodio.gitlens",
 				"ms-vscode.js-debug-nightly",
-				"PulkitGangwar.nextjs-snippets"
+				"PulkitGangwar.nextjs-snippets",
+				"bradlc.vscode-tailwindcss"
 			]
 		}
 	},
