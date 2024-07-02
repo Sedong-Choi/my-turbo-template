@@ -1,4 +1,4 @@
-import  {type Metadata } from "next";
+import { type Metadata } from "next";
 import { Provider } from "@repo/ui/Provider";
 import Navbar from "@repo/ui/CustomNavbar";
 import "./globals.css";
@@ -14,7 +14,7 @@ import { auth } from "@/auth";
 import { getMenuItems, getNavItems } from "@/prisma/actions";
 import Footer from "@/components/footer";
 import Background from "@/components/background/background";
-
+import { convertUnitsToPx } from "@repo/ui/Utils";
 
 export const metadata: Metadata = {
   title: `${process.env.APP_NAME} - home`,
@@ -42,6 +42,8 @@ export default async function RootLayout({
   }
   const navItems = (await getNavItems()) || mocNavItems;
   const profileMenuItems = (await getMenuItems()) || mockProfileMenuItems;
+
+  const navHeight: string = convertUnitsToPx("3rem");
   return (
     <html suppressHydrationWarning>
       <body className="min-h-screen text-foreground bg-background">
@@ -54,10 +56,11 @@ export default async function RootLayout({
                 userInfo={userInfo}
                 signOut={signOut}
                 isLoggedIn={userInfo.email || userInfo.name ? true : false}
+                height={navHeight}
               />
-              
-                <Background />
-              <main className="w-full mx-auto max-w-7xl px-6 flex-grow">
+              <Background navHeight={navHeight} />
+              <main className={`flex justify-center items-center w-full mx-auto max-w-7xl px-6`}
+                style={{ height: `calc(100vh - ${navHeight})` }}>
                 {children}
               </main>
               <Footer />

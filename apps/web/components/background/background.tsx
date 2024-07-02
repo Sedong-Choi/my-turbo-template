@@ -1,5 +1,5 @@
 "use client";
-import  { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import "@/styles/custom-background.css";
 import Night from './night';
 import Day from './day';
@@ -8,32 +8,38 @@ import Cloud from "@repo/ui/cloud";
 
 import { useTheme } from 'next-themes';
 import Snow from './snow';
-const Background: React.FC = () => {
+interface BackgroundProps {
+    navHeight?:string;
+}
+const Background = ({navHeight}:BackgroundProps) => {
     const [isMounted, setIsMounted] = useState(false);
     const { theme } = useTheme();
     useEffect(() => {
         setIsMounted(true);
     }, []);
-    if (!isMounted ) {
+    if (!isMounted) {
         return null;
     }
     const boxClass = (type: string) => `w-full box ${theme == type ? "animate-spinUp" : "animate-spinDown"}`;
     return (
         <div className="relative">
-            <div className={`custom-bg bg-${theme} absolute w-full h-full`}>
+            <div className={`custom-bg bg-${theme} absolute w-full`}
+            style={{
+                height: `calc(100vh - ${navHeight})`
+            }}>
                 <div key='dark' className={boxClass('dark')}>
-                    <Night theme={theme}/>
+                    <Night theme={theme} />
                 </div>
                 <div key="light" className={boxClass('light')}>
-                    <Day theme={theme}/>
+                    <Day theme={theme} />
                 </div>
             </div>
             {
                 theme === "dark" && (
-                    <Snow maxParticle={500} animationSpeed={30}/>
+                    <Snow maxParticle={500} animationSpeed={30} navHeight={navHeight} />
                 )
             }
-            <Cloud/>
+            <Cloud navHeight={navHeight} />
         </div>
     );
 };

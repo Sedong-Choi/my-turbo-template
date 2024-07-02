@@ -5,7 +5,6 @@ import CustomButton from "@repo/ui/CustomButton";
 import PostCard from "@repo/ui/PostCard";
 import { useState } from "react";
 import { posts } from "@repo/ui/mock";
-import Background from "@/components/background/background";
 export default function Page(): JSX.Element {
   const [isWelcomeClicked, setIsWelcomeClicked] = useState(false);
   return (
