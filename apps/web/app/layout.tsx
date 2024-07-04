@@ -60,7 +60,7 @@ export default async function RootLayout({
               />
               <Background navHeight={navHeight} />
               <main className={`flex justify-center items-center w-full mx-auto max-w-7xl px-6`}
-                style={{ height: `calc(100vh - ${navHeight})` }}>
+                style={{ minHeight: `calc(100vh - ${navHeight})` }}>
                 {children}
               </main>
               <Footer />
