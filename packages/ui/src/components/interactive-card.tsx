@@ -2,8 +2,6 @@
 
 import { MouseEventHandler, useEffect, useRef, useState } from "react";
 import '../style/interactive-card.css';
-import { card } from "@nextui-org/react";
-import { isCompositeComponent } from "react-dom/test-utils";
 export type CardData = {
     id: number;
     image: string;
@@ -13,20 +11,26 @@ export type CardData = {
     height?: number;
     href?: string;
     tags?: string;
+    cardRadius?: number
 }
 interface InteractiveCardProps {
-    // TODO 카드의 data를 가지고 rendering
     cardData: CardData;
-    activeCard: number;
-    setActiveCard: (activeCard: number) => void;
+    activeCard?: number;
+    setActiveCard?: (activeCard: number) => void;
 }
 
+// TODO scroll 시 card의 위치에 따라 card의 transform 설정
 const InteractiveCard = ({ cardData, activeCard, setActiveCard }: InteractiveCardProps) => {
 
     const cardRef = useRef<HTMLDivElement>(null);
+
+    // activeCard 변경 감지를 위한 ref 설정
+    const activeCardRef = useRef<number>(activeCard ?? -1);
+    // card 움직임에 따른 변수 설정 
     const translaterRef = useRef<HTMLDivElement>(null);
     const activeRef = useRef<boolean>(false);
     const isInterActingRef = useRef<boolean>(false);
+
     const defaultWrapperVariables = {
         "--pointer-x": "50%",
         "--pointer-y": "50%",
@@ -41,6 +45,8 @@ const InteractiveCard = ({ cardData, activeCard, setActiveCard }: InteractiveCar
         "--card-scale": "1",
         "--translate-x": "0px",
         "--translate-y": "0px",
+        "--card-aspect": cardData.width && cardData.height ? (cardData.height / cardData.width) : "0.718",
+        "--card-radius": cardData.cardRadius ?? "4.55% / 3.5%",
     };
     const [wrapperVariables, setWrapperVariables] = useState<object>(defaultWrapperVariables)
     const [isActive, setIsActive] = useState<boolean>(false);
@@ -48,7 +54,6 @@ const InteractiveCard = ({ cardData, activeCard, setActiveCard }: InteractiveCar
     useEffect(() => {
         activeRef.current = isActive;
         isInterActingRef.current = isInterActing;
-
         if (!isInterActing) {
             setWrapperVariables({
                 ...wrapperVariables,
@@ -56,17 +61,25 @@ const InteractiveCard = ({ cardData, activeCard, setActiveCard }: InteractiveCar
                 "--rotate-y": "0deg",
             })
         }
+        // activeCard 변경 감지
+        if (activeCardRef && activeCardRef.current && activeCard) {
+            activeCardRef.current = activeCard;
+        }
     }, [isActive, isInterActing]);
 
+
+    // mount시 event listener 추가
     useEffect(() => {
         const currentCardRef = cardRef.current;
         const currentTranslaterRef = translaterRef.current;
         if (currentCardRef && currentTranslaterRef) {
             window.addEventListener('click', handleClickOuterCard);
+            window.addEventListener('scrollend', handleScroll);
         }
         return () => {
             if (currentCardRef && currentTranslaterRef) {
                 window.removeEventListener('click', handleClickOuterCard);
+                window.addEventListener('scrollend', handleScroll);
             }
         }
     }, []);
@@ -108,17 +121,19 @@ const InteractiveCard = ({ cardData, activeCard, setActiveCard }: InteractiveCar
             "--translate-x": translateX + "px",
             "--translate-y": translateY + "px",
         }
-        setWrapperVariables(newVariables);
+        setWrapperVariables({ ...wrapperVariables, ...newVariables });
         setIsInterActing(true);
     };
 
     // 카드 클릭시 card active 변경
     const handleCardClick = (e: any) => {
         setIsActive(!activeRef.current);
-        if (activeCard === cardData.id) {
-            setActiveCard(-1);
-        } else {
-            setActiveCard(cardData.id);
+        if (setActiveCard) {
+            if (activeCard === cardData.id) {
+                setActiveCard(-1);
+            } else {
+                setActiveCard(cardData.id);
+            }
         }
         if (!cardRef.current) return;
 
@@ -154,6 +169,7 @@ const InteractiveCard = ({ cardData, activeCard, setActiveCard }: InteractiveCar
         // 다른 카드 선택하지 않았을때 active카드 초기화
         if (
             target.className !== "card__rotator"
+            && setActiveCard
         ) {
             setActiveCard(-1);
         }
@@ -163,9 +179,17 @@ const InteractiveCard = ({ cardData, activeCard, setActiveCard }: InteractiveCar
         if (!activeRef.current) {
             setWrapperVariables(defaultWrapperVariables);
             setIsInterActing(false);
-            // window.removeEventListener('mousemove', handleMousemove);
         }
     }
+
+    const handleScroll = () => {
+        if (activeCardRef.current === cardData.id) {
+            const delay = 0;
+            setTimeout(() => {
+                interActionPosition();
+            }, delay);
+        }
+    };
 
     return (
         <div
@@ -183,23 +207,27 @@ const InteractiveCard = ({ cardData, activeCard, setActiveCard }: InteractiveCar
                     onMouseLeave={(e: any) => handleMouseLeave(e)}
                     onClick={(e) => handleCardClick(e)}
                 >
-                    <img
-                        className="card__back"
-                        src="https://tcg.pokemon.com/assets/img/global/tcg-card-back-2x.jpg"
-                        alt="The back of a Pokemon Card, a Pokeball in the center with Pokemon logo above and below"
-                        loading="lazy"
-                        width="660px"
-                        height="921px"
-                    />
+                    {/*
+                        TODO rotate 모션 추가시 사용 
+                        {
+                        cardData.backImage &&
+                        <img
+                            className="card__back"
+                            src={cardData.backImage}
+                            alt="The back of a Pokemon Card, a Pokeball in the center with Pokemon logo above and below"
+                            loading="lazy"
+                            width={cardData.width}
+                            height={cardData.height}
+                        />} */}
                     <div
                         className="card__front"
                     >
                         <img
-                            src="https://images.pokemontcg.io/swsh12pt5/160_hires.png"
-                            alt="Front design of the Pikachu Pokemon Card, with the stats and info around the edge"
+                            src={cardData.image}
+                            alt={cardData.title}
                             loading="lazy"
-                            width="660px"
-                            height="921px"
+                            width={cardData.width}
+                            height={cardData.height}
                         />
                     </div>
                 </div>

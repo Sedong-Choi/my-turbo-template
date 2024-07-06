@@ -1,6 +1,6 @@
 :root {
-  --card-aspect: 0.718;
-  --card-radius: 4.55% / 3.5%;
+  /* --card-aspect: 0.718;
+  --card-radius: 4.55% / 3.5%; */
   --card-back: hsl(205, 100%, 25%);
 }
 
@@ -15,10 +15,14 @@
   transform-style: preserve-3d;
 }
 
+.card__container.active{
+  z-index: 99;
+}
+
 /* wrapper media query */
 @media screen and (min-width: 900px) {
   .card__container {
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: repeat(var(--card-cols), 1fr);
   }
 }
 
@@ -29,47 +33,118 @@
       opacity 0.2s ease,
       transform 0.2s ease;
   }
-  .card__container > .card:nth-child(1n) {
-    left: -50px;
+  .card__container.card-cols-3 > .card:nth-child(3n + 1) {
+    left: calc(-1 * var(--card-col-translate-x));
     top: 10px;
-    transform: translateZ(0.1px) rotate(-5deg);
+    transform: translateZ(0.1px) rotate(calc(-1 * var(--card-sm-rotate-x)));
     z-index: calc(var(--card-scale) * 100 + 3);
   }
-  .card__container > .card:nth-child(2n) {
+  .card__container.card-cols-3 > .card:nth-child(3n + 2) {
     left: 0;
     top: 10px;
     transform: translateZ(0.1px);
     z-index: calc(var(--card-scale) * 100 + 2);
   }
 
-  .card__container > .card:nth-child(3n) {
-    left: 50px;
+  .card__container.card-cols-3 > .card:nth-child(3n + 0) {
+    left: calc(var(--card-col-translate-x));
     top: 10px;
-    transform: translateZ(0.1px) rotate(5deg);
+    transform: translateZ(0.1px) rotate(calc(var(--card-sm-rotate-x)));
+    z-index: calc(var(--card-scale) * 100 + 1);
+  }
+  /* cols 4일때 필요 */
+  .card__container.card-cols-4 > .card {
+    top: 10px;
+  }
+  .card__container.card-cols-4 > .card:nth-child(4n + 1) {
+    left: calc(-1 * var(--card-col-translate-x) * 1.5);
+    transform: translateZ(0.1px) rotate(calc(-1 * var(--card-sm-rotate-x) * 2));
+    z-index: calc(var(--card-scale) * 100 + 4);
+  }
+  .card__container.card-cols-4 > .card:nth-child(4n + 2) {
+    left: calc(-1 * var(--card-col-translate-x) * 0.5);
+    transform: translateZ(0.1px) rotate(calc(-1 * var(--card-sm-rotate-x)));
+    z-index: calc(var(--card-scale) * 100 + 3);
+  }
+  .card__container.card-cols-4 > .card:nth-child(4n + 3) {
+    left: calc(var(--card-col-translate-x) * 0.5);
+    transform: translateZ(0.1px) rotate(var(--card-sm-rotate-x));
+    z-index: calc(var(--card-scale) * 100 + 2);
+  }
+  .card__container.card-cols-4 > .card:nth-child(4n + 0) {
+    left: calc(var(--card-col-translate-x) * 1.5);
+    transform: translateZ(0.1px) rotate(calc(var(--card-sm-rotate-x) * 2));
     z-index: calc(var(--card-scale) * 100 + 1);
   }
 
   /* 3개 이상일때  */
-  .card__container > .card:nth-child(n + 4):nth-child(-n + 6) {
+  .card__container.card-cols-3 > .card:nth-child(n + 4):nth-child(-n + 6) {
     grid-row: 2;
   }
 
-  .card__container > .card:nth-child(n + 7):nth-child(-n + 9) {
+  .card__container.card-cols-3 > .card:nth-child(n + 7):nth-child(-n + 9) {
     grid-row: 3;
   }
 
-  .card__container > .card:nth-child(n + 10):nth-child(-n + 12) {
+  .card__container.card-cols-3 > .card:nth-child(n + 10):nth-child(-n + 12) {
     grid-row: 4;
   }
 
-  .card__container > .card:nth-child(n + 13):nth-child(-n + 15) {
+  .card__container.card-cols-3 > .card:nth-child(n + 13):nth-child(-n + 15) {
     grid-row: 5;
   }
 
-  .card__container > .card:nth-child(n + 16):nth-child(-n + 18) {
+  .card__container.card-cols-3 > .card:nth-child(n + 16):nth-child(-n + 18) {
     grid-row: 6;
   }
 
+  .card__container.card-cols-3 > .card:nth-child(n + 19) {
+    grid-row: auto;
+    grid-column: auto;
+    transform: none !important;
+    left: 0 !important;
+    top: 0 !important;
+  }
+
+  /* 4개일때  */
+  .card__container.card-cols-3 > .card:nth-child(n + 4):nth-child(-n + 6) {
+    grid-row: 2;
+  }
+
+  .card__container.card-cols-3 > .card:nth-child(n + 7):nth-child(-n + 9) {
+    grid-row: 3;
+  }
+
+  .card__container.card-cols-3 > .card:nth-child(n + 10):nth-child(-n + 12) {
+    grid-row: 4;
+  }
+
+  .card__container.card-cols-3 > .card:nth-child(n + 13):nth-child(-n + 15) {
+    grid-row: 5;
+  }
+
+  .card__container.card-cols-3 > .card:nth-child(n + 16):nth-child(-n + 18) {
+    grid-row: 6;
+  }
+
+  /* card-cols-4 */
+  .card__container.card-cols-4 > .card:nth-child(n + 5):nth-child(-n + 8) {
+    grid-row: 2;
+  }
+
+  .card__container.card-cols-4 > .card:nth-child(n + 9):nth-child(-n + 12) {
+    grid-row: 3;
+  }
+
+  .card__container.card-cols-4 > .card:nth-child(n + 13):nth-child(-n + 16) {
+    grid-row: 4;
+  }
+
+  .card__container.card-cols-4 > .card:nth-child(n + 17):nth-child(-n + 20) {
+    grid-row: 5;
+  }
+
+  /* 20개 이상일 때 */
   .card__container > .card:nth-child(n + 19) {
     grid-row: auto;
     grid-column: auto;
@@ -83,14 +158,30 @@
     max-width: 420px;
     margin: auto;
   }
-  .card__container > .card:nth-child(1n) {
-    left: -100px;
+  /* Modify the position of cards based on the number of columns (3 or 4).
+  The following CSS definitions are for when there are 3 cards.
+  Add additional CSS definitions for when there are 4 cards. */
+  .card__container.card-cols-3 > .card:nth-child(3n + 1) {
+    left: calc(-1 * var(--card-col-translate-x));
   }
-  .card__container > .card:nth-child(2n) {
+  .card__container.card-cols-3 > .card:nth-child(3n + 2) {
     left: 0;
   }
-  .card__container > .card:nth-child(3n) {
-    left: 100px;
+  .card__container.card-cols-3 > .card:nth-child(3n + 0) {
+    left: var(--card-col-translate-x);
+  }
+  /* card-cols-4*/
+  .card__container.card-cols-4 > .card:nth-child(4n + 1) {
+    left: calc(-1 * var(--card-col-translate-x) * 1.5);
+  }
+  .card__container.card-cols-4 > .card:nth-child(4n + 2) {
+    left: calc(-1 * var(--card-col-translate-x) * 0.5);
+  }
+  .card__container.card-cols-4 > .card:nth-child(4n + 3) {
+    left: calc(var(--card-col-translate-x) * 0.5);
+  }
+  .card__container.card-cols-4 > .card:nth-child(4n + 0) {
+    left: calc(var(--card-col-translate-x) * 1.5);
   }
 }
 
@@ -109,6 +200,7 @@
   touch-action: none;
 }
 @media screen and (max-width: 600px) {
+  /* front와 back이 둘 다 있을때 */
   .card {
     grid-area: 1/1;
   }

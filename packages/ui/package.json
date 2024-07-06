@@ -20,6 +20,7 @@
     "./shared.css":"./src/shared.css",
     "./animations":"./src/animations/index.ts",
     "./cloud":"./src/components/cloud.tsx",
+    "./snow":"./src/components/snow.tsx",
     "./InteractiveCardContainer":"./src/components/interactive-card-container.tsx"
   },
   "scripts": {

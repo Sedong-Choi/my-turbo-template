@@ -4,13 +4,13 @@ import { SnowFlake } from "@repo/ui/animations";
 interface SnowProps {
     maxParticle?: number;
     animationSpeed?: number; // {n}fps
-    navHeight?: string
+    remainingHeight?: string
 }
-export default function Snow({ maxParticle, animationSpeed, navHeight }: SnowProps): JSX.Element {
+export default function Snow({ maxParticle, animationSpeed, remainingHeight }: SnowProps): JSX.Element {
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
     const [screenWidth, setScreenWidth] = useState<number>(window.innerWidth);
-    const [screenHeight, setScreenHeight] = useState<number>(window.innerHeight - parseFloat(navHeight ?? '0'));
+    const [screenHeight, setScreenHeight] = useState<number>(window.innerHeight - parseFloat(remainingHeight ?? '0'));
     const [snowflakes, setSnowFlakes] = useState<(SnowFlake | null)>(null);
     useEffect(() => {
         // canvas가 랜더링 된 후에 SnowFlake 인스턴스를 생성
@@ -40,7 +40,6 @@ export default function Snow({ maxParticle, animationSpeed, navHeight }: SnowPro
             snowflakes?.draw();
             // 이벤트 리스너 등록
             window.addEventListener("resize", handleResize);
-
         }
     }, [snowflakes]);
 

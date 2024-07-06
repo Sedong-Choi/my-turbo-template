@@ -3,14 +3,14 @@ import { useEffect, useRef, useState } from 'react'
 
 import { CloudFlow } from '../animations/cloudFlow';
 interface CloudProps {
-    navHeight?: string
+    remainingHeight?: string
 }
 const Cloud = (
-    { navHeight }: CloudProps
+    { remainingHeight }: CloudProps
 ) => {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-    const [screenHeight, setScreenHeight] = useState(window.innerHeight - (parseFloat(navHeight ?? '0')));
+    const [screenHeight, setScreenHeight] = useState(window.innerHeight - (parseFloat(remainingHeight ?? '0')));
     const [cloudInstance, setCloudInstance] = useState<CloudFlow | null>(null)
 
     useEffect(() => {

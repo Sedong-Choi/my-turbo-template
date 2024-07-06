@@ -58,8 +58,8 @@ export default async function RootLayout({
                 isLoggedIn={userInfo.email || userInfo.name ? true : false}
                 height={navHeight}
               />
-              <Background navHeight={navHeight} />
-              <main className={`flex justify-center items-center w-full mx-auto max-w-7xl px-6`}
+              <Background remainingHeight={navHeight} />
+              <main className={`flex flex-col justify-center items-center w-full mx-auto max-w-7xl px-6`}
                 style={{ minHeight: `calc(100vh - ${navHeight})` }}>
                 {children}
               </main>

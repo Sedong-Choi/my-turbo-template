@@ -7,88 +7,45 @@ import InteractiveCardContainer from "@repo/ui/InteractiveCardContainer";
 import CustomButton from "@repo/ui/CustomButton";
 import { useState } from "react";
 import { posts } from "@repo/ui/mock";
-import { CardData } from "../../../packages/ui/src/components/interactive-card";
+import { InteractiveCardData } from "@repo/ui/types";
+import { mockInteractiveCard } from "@repo/ui/mock";
+import Background from "@/components/background/background";
 export default function Page(): JSX.Element {
   const [isWelcomeClicked, setIsWelcomeClicked] = useState(false);
 
 
   // interactive card data
-  const interactiveCardData: CardData[] = [
-    {
-      id: 1,
-      image: "https://images.unsplash.com/photo-1631552009879-7e8a3c1b8b7a",
-      title: "Title",
-      description: "Description",
-      width: 300,
-      height: 400,
-      href: "https://www.google.com",
-      tags: "tags"
-
-    },
-    {
-      id: 2,
-      image: "https://images.unsplash.com/photo-1631552009879-7e8a3c1b8b7a",
-      title: "Title 2",
-      description: "Description 2",
-      width: 300,
-      height: 400,
-      href: "https://www.google.com",
-      tags: "tags 2"
-    },
-    {
-      id: 3,
-      image: "https://images.unsplash.com/photo-1631552009879-7e8a3c1b8b7a",
-      title: "Title 3",
-      description: "Description 3",
-      width: 300,
-      height: 400,
-      href: "https://www.google.com",
-      tags: "tags 3"
-    },
-    {
-      id: 4,
-      image: "https://images.unsplash.com/photo-1631552009879-7e8a3c1b8b7a",
-      title: "Title 4",
-      description: "Description 4",
-      width: 300,
-      height: 400,
-      href: "https://www.google.com",
-      tags: "tags 4"
-    },
-    {
-      id: 5,
-      image: "https://images.unsplash.com/photo-1631552009879-7e8a3c1b8b7a",
-      title: "Title 5",
-      description: "Description 5",
-      width: 300,
-      height: 400,
-      href: "https://www.google.com",
-      tags: "tags 5"
-    }
-  ]
+  const interactiveCardData: InteractiveCardData[] = mockInteractiveCard;
 
   return (
     <>
       {
         !isWelcomeClicked &&
-        <div className="flex flex-col items-center gap-4">
-          <div className="flex items-center justify-center h-10">
-            <CustomButton
-              className={"dark:bg-slate-50 dark:text-slate-900 dark:hover:text-slate-900 dark:hover:after:opacity-60 dark:hover:after:scale-110 dark:hover:after:transition dark:hover:after:duration-500 dark:hover:after:z-[-1] dark:hover:after:rounded-full dark:hover:after:absolute dark:hover:after:inset-0 dark:hover:after:content-['']"}
-              onClick={() => setIsWelcomeClicked(!isWelcomeClicked)}
-            >
-              Welcome!
-            </CustomButton>
-          </div>
+        <div className="fixed top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%]">
+
+          <CustomButton
+            className={"dark:bg-slate-50 dark:text-slate-900 dark:hover:text-slate-900 dark:hover:after:opacity-60 dark:hover:after:scale-110 dark:hover:after:transition dark:hover:after:duration-500 dark:hover:after:z-[-1] dark:hover:after:rounded-full dark:hover:after:absolute dark:hover:after:inset-0 dark:hover:after:content-['']"}
+            onClick={() => setIsWelcomeClicked(!isWelcomeClicked)}
+          >
+            Welcome!
+          </CustomButton>
         </div>
+
       }
       {
         isWelcomeClicked &&
         <>
-        {/* <CardWrapper as={PostCard} items={posts} /> */}
-          <InteractiveCardContainer cardData={interactiveCardData} />
-          <button className={"dark:bg-slate-50 dark:text-slate-900 dark:hover:text-slate-900 dark:hover:after:opacity-60 dark:hover:after:scale-110 dark:hover:after:transition dark:hover:after:duration-500 dark:hover:after:z-[-1] dark:hover:after:rounded-full dark:hover:after:absolute dark:hover:after:inset-0 dark:hover:after:content-['']"}
-            onClick={() => setIsWelcomeClicked(!isWelcomeClicked)}>Back</button>
+          <h2 className="text-foreground my-10">
+            Interactive Card!!
+          </h2>
+          <InteractiveCardContainer cardData={interactiveCardData} cols={3} />
+          <h2 className="text-foreground my-10">
+            Post Card!!
+          </h2>
+          <CardWrapper as={PostCard} items={posts} />
+          {/* 처음화면으로 돌아가기 */}
+          <CustomButton className={"dark:bg-slate-50 dark:text-slate-900 dark:hover:text-slate-900 dark:hover:after:opacity-60 dark:hover:after:scale-110 dark:hover:after:transition dark:hover:after:duration-500 dark:hover:after:z-[-1] dark:hover:after:rounded-full dark:hover:after:absolute dark:hover:after:inset-0 dark:hover:after:content-[''] fixed bottom-5 right-5 z-10"}
+            onClick={() => setIsWelcomeClicked(!isWelcomeClicked)}>Home</CustomButton>
         </>
       }
     </>

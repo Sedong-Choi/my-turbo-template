@@ -7,11 +7,11 @@ import Day from './day';
 import Cloud from "@repo/ui/cloud";
 
 import { useTheme } from 'next-themes';
-import Snow from './snow';
+import Snow from '@repo/ui/snow';
 interface BackgroundProps {
-    navHeight?:string;
+    remainingHeight?:string;
 }
-const Background = ({navHeight}:BackgroundProps) => {
+const Background = ({remainingHeight}:BackgroundProps) => {
     const [isMounted, setIsMounted] = useState(false);
     const { theme } = useTheme();
     useEffect(() => {
@@ -25,7 +25,7 @@ const Background = ({navHeight}:BackgroundProps) => {
         <div className="relative">
             <div className={`custom-bg bg-${theme} absolute w-full`}
             style={{
-                height: `calc(100vh - ${navHeight})`
+                height: `calc(100vh - ${remainingHeight})`
             }}>
                 <div key='dark' className={boxClass('dark')}>
                     <Night theme={theme} />
@@ -36,10 +36,10 @@ const Background = ({navHeight}:BackgroundProps) => {
             </div>
             {
                 theme === "dark" && (
-                    <Snow maxParticle={500} animationSpeed={30} navHeight={navHeight} />
+                    <Snow maxParticle={500} animationSpeed={30} remainingHeight={remainingHeight} />
                 )
             }
-            <Cloud navHeight={navHeight} />
+            <Cloud remainingHeight={remainingHeight} />
         </div>
     );
 };
