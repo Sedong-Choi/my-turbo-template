@@ -1,46 +1,18 @@
-import { Canvas, Ctx } from "./index";
+import { Canvas } from "./base-animation";
+import { BaseAnimationInstance } from "./base-animation-instance";
+import { Particles, ParticleType, SnowParticle } from "./types";
 
-// all of apticles
-type Particles = SnowParticle | RainParticle;
-
-export type ParticleType = "snow" | "rain";
-
-type Particle = {
-  x: number;
-  y: number;
-  speed: number;
-};
-
-interface SnowParticle extends Particle {
-  radius?: number;
-}
-
-interface RainParticle extends Particle {
-  length?: number;
-}
-
-export class ParticleFall {
+export class ParticleFall extends BaseAnimationInstance<
+  Particles,
+  ParticleType
+> {
   // initialize parameters
   private widthScale: number = 2;
-  ctx?: Ctx;
-  canvas?: Canvas;
-
-  type: ParticleType = "snow";
-
-  avgFps = 60; //default
-  lastFpsUpdateTime = 0;
-  // to cancel animation frame
-  destroied: boolean = false;
-  animationStartTime: number = -1;
-  animationFrame: number = 0;
-  // items item
-  items: Particles[] = [];
 
   // mouse pointer
   mousePoint: { x: number; y: number } = { x: 0, y: 0 };
 
   // control part start
-  animateSpeed: number = 1000 / 60; // default 60fps
   maxParticle: number = 300;
 
   // TODO
@@ -49,26 +21,29 @@ export class ParticleFall {
   maxSpeedY: number = 3;
   // control part end
 
-  constructor(canvas: Canvas, particleType?: ParticleType, options?: any) {
-    if (canvas) {
-      this.setCanvas(canvas);
-      this.setCtx(canvas.getContext("2d"));
-    }
-    this.type = particleType ?? "snow";
-
+  constructor(canvas: Canvas, particleType: ParticleType, options?: any) {
+    super(canvas, particleType, options);
     if (options) {
       this.setOptions(options);
     }
 
+    if (this.canvas) {
+      this.canvas.addEventListener(
+        "mousemove",
+        this.handleMouseMove.bind(this)
+      );
+    }
     console.debug("ParticleFall class created!");
   }
 
+  /**
+   *
+   * @abstract
+   * @param options
+   */
   setOptions(options: any) {
     if (options) {
-      const { fps, maxSpeedX, maxSpeedY, maxParticle } = options;
-      if (fps) {
-        this.setAnimationSpeed(fps);
-      }
+      const { maxSpeedX, maxSpeedY, maxParticle } = options;
       if (maxSpeedX) {
         this.setMaxSpeedX(maxSpeedX);
       }
@@ -81,35 +56,37 @@ export class ParticleFall {
     }
   }
 
-  //
-  setAnimationSpeed(fps: number) {
-    this.animateSpeed = 1000 / fps;
-  }
+  /**
+   * ParticleFall class의 각 item에 대한 maxSpeedY를 설정하는 메서드
+   * @param maxSpeedY
+   */
   setMaxSpeedY(maxSpeedY: number) {
     this.maxSpeedY = maxSpeedY;
   }
+  /**
+   * ParticleFall class의 각 item에 대한 maxSpeedX를 설정하는 메서드
+   * @param maxSpeedX
+   */
   setMaxSpeedX(maxSpeedX: number) {
     this.maxSpeedX = maxSpeedX;
   }
+
+  /**
+   * ParticleFall class의 각 item에 대한 maxParticle를 설정하는 메서드
+   * @param maxParticle
+   */
   setMaxParticle(maxParticle: number) {
     this.maxParticle = maxParticle;
-  }
-
-  setCanvas(canvas: Canvas) {
-    if (!canvas) return;
-    this.canvas = canvas;
-    this.setCtx(this.canvas.getContext("2d"));
-    this.canvas.addEventListener("mousemove", this.handleMouseMove.bind(this));
-  }
-
-  setCtx(ctx: Ctx) {
-    this.ctx = ctx;
   }
 
   setParticles(items: Particles[]) {
     this.items = items;
   }
 
+  /**
+   * create falling particles
+   * @implements
+   */
   create() {
     if (this.items.length > this.maxParticle) return;
     if (!this.canvas) return;
@@ -125,6 +102,10 @@ export class ParticleFall {
     });
   }
 
+  /**
+   * update falling particles position
+   * @implements
+   */
   update() {
     if (!this.ctx || !this.canvas) return;
     const canvas = this.canvas;
@@ -148,7 +129,6 @@ export class ParticleFall {
                 canvas.width
               )) /
             this.avgFps;
-
           particle.y +=
             particle.speed + (windSpeedY < 0 ? Math.random() : windSpeedY);
           particle.x += windSpeedX;
@@ -162,6 +142,10 @@ export class ParticleFall {
     );
   }
 
+  /**
+   * select draw method by particle type
+   * @implements
+   */
   draw() {
     this.items.forEach((particle: Particles) => {
       if (!this.ctx) {
@@ -179,6 +163,10 @@ export class ParticleFall {
     });
   }
 
+  /**
+   * draw snow method
+   * @param particle
+   */
   private drawSnow(particle: SnowParticle) {
     if (!this.ctx) {
       throw new Error("ctx is null");
@@ -190,44 +178,48 @@ export class ParticleFall {
     this.ctx.fill();
   }
 
-  private drawRain() {}
-
-  animate() {
-    if (this.destroied) {
-      console.debug("animation canceled", this.animationFrame);
-      return;
-    }
-    this.setFps();
-    this.clear();
-    this.update();
-    this.animationFrame = requestAnimationFrame(() => this.animate());
+  /**
+   * TODO make rain particle
+   */
+  private drawRain() {
+    console.debug("drawRain method called");
   }
 
+  /**
+   * Canvas 위에서의 mouse 움직일에 따른 pointer 위치를 설정하는 메서드
+   * @param x
+   * @param y
+   */
   setMousePoint(x: number, y: number) {
     this.mousePoint = { x, y };
   }
 
-  clear() {
-    if (this.ctx && this.canvas) {
-      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    }
-  }
-
+  /**
+   * ParticleFall class has own mouse event listener
+   * remove event listener and destroy
+   * @override
+   */
   destroy() {
-    this.destroied = true;
-    this.items = [];
+    this.isDestroyed = true;
+    this.stop();
     if (this.ctx && this.canvas) {
       // 캔버스 클리어
       this.canvas.removeEventListener(
         "mousemove",
         this.handleMouseMove.bind(this)
       );
-      this.ctx = null;
-      this.canvas = null;
     }
+    this.items = [];
+    this.ctx = null;
+    this.canvas = null;
     console.debug("ParticleFall class destroyed!");
   }
 
+  /**
+   * particle wind speed change by mouse pointer
+   * @param event
+   * @returns
+   */
   handleMouseMove(event: MouseEvent) {
     // canvas위에서의 mouse pointer 위치를 업데이트 할꺼야
     if (!this.canvas) return;
@@ -235,21 +227,13 @@ export class ParticleFall {
     this.setMousePoint(event.clientX - rect.left, event.clientY - rect.top);
   }
 
-  // canvas의 중심으로 부터 가장자리까지의 비율을 1로 설정했을대 pointer의 비율
-  calcMousePointerRatioFromCenter(point: number, range: number) {
+  /**
+   * canvas의 중심으로 부터 가장자리까지의 비율을 1로 설정했을대 pointer의 비율
+   * @param point
+   * @param range
+   * @returns number
+   */
+  calcMousePointerRatioFromCenter(point: number, range: number): number {
     return (point - range / 2) / (range / 2);
-  }
-
-  setFps() {
-    const now = performance.now();
-    if (this.animationStartTime < 0) {
-      this.animationStartTime = now;
-      this.lastFpsUpdateTime = now;
-    }
-    const diffTime = now - this.animationStartTime;
-    if (now - this.lastFpsUpdateTime > 1000) {
-      this.avgFps = 1000 / diffTime;
-    }
-    this.animationStartTime = now;
   }
 }

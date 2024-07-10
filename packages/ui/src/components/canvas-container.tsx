@@ -28,7 +28,7 @@ export type SharedAnimationOptionsProps ={
     [key in SharedAnimationOptions]?: string;
 }
 
-export type SharedAnimationOptions = "theme" |"fps";
+export type SharedAnimationOptions = "theme";
 
 
 export type ThunderProps = SharedAnimationOptionsProps & {

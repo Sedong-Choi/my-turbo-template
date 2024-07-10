@@ -1,24 +1,9 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import "@/styles/custom-background.css";
-import Night from './night';
-import Day from './day';
-import { type GlobalAnimationOptions, type AnimationOptions, AnimationObject, SharedAnimationOptions, SharedAnimationOptionsProps } from "@repo/ui/canvasContainer";
+import { type GlobalAnimationOptions, SharedAnimationOptions } from "@repo/ui/canvasContainer";
 import CanvasContainer, { type Animations } from "@repo/ui/canvasContainer";
 
-type FixedAnimationsOptions = {
-    [key in keyof AnimationOptions]: {
-        [subKey in keyof AnimationOptions[key]]: AnimationOptions[key][subKey] | AnimationObject[] | undefined;
-    };
-};
-
-type FixedAnimations = {
-    [key in keyof Animations]: FixedAnimationsOptions;
-};
-
-
-import { useTheme } from 'next-themes';
-import { AnimationType } from '@repo/ui/animations';
 interface AnimationContainerProps {
 
     remainingHeight?: string;
