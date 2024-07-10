@@ -1,5 +1,3 @@
-import Snow from "./snow"
-
 interface NightProps {
     theme: string |undefined;
 }

@@ -9,10 +9,11 @@ import { useState } from "react";
 import { posts } from "@repo/ui/mock";
 import { InteractiveCardData } from "@repo/ui/types";
 import { mockInteractiveCard } from "@repo/ui/mock";
-import Background from "@/components/background/background";
+import AnimationContainer from "@/components/background/animation-container";
+import { useTheme } from "next-themes";
 export default function Page(): JSX.Element {
   const [isWelcomeClicked, setIsWelcomeClicked] = useState(false);
-
+  const { theme } = useTheme();
 
   // interactive card data
   const interactiveCardData: InteractiveCardData[] = mockInteractiveCard;
@@ -35,6 +36,33 @@ export default function Page(): JSX.Element {
       {
         isWelcomeClicked &&
         <>
+          <section className="flex flex-col gap-4 w-full">
+            <h2 className="text-foreground my-10">
+              Animation!!
+            </h2>
+            <div className="relative grid grid-cols-1 lg:grid-cols-2 w-full">
+              <AnimationContainer
+                height="400px"
+                options={{
+                  global:{
+                    theme:theme,
+                    objects:['sun','moon']
+                  },
+                  snow: {
+                    maxParticle: 500,
+                  },
+                  cloud: {
+                    createDuration: 1000,
+                    maxCloud: 10,
+                    color: "#fff"
+                  }
+                }} />
+              <div className="controller ">
+                TODO Controller section
+              </div>
+            </div>
+          </section>
+
           <h2 className="text-foreground my-10">
             Interactive Card!!
           </h2>

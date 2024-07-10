@@ -20,7 +20,6 @@
 
 .moon,
 .sun {
-    position: absolute;
     border-radius: 50%;
     height: 5rem;
     width: 5rem;
